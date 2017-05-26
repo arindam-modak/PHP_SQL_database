@@ -83,9 +83,9 @@
 	//Add button
 	if(isset($_REQUEST['btnAdd']))
 	{
-$con = mysqli_connect("localhost", "root", "");
+$con = mysqli_connect("localhost", "id1781998_dbuser", "dbuser");
 	
-
+	mysqli_select_db($con, "id1781998_dbuser");
 		$sql = "Insert into tbluserinfo(colId,colPassword,colName,colAge) values('$id', '$password', '$name', $age)";
 		
 		if($id=="" or $password=="" or $name=="" or $age=="")
@@ -115,8 +115,9 @@ $con = mysqli_connect("localhost", "root", "");
 	
 	//Update password
 	if(isset($_REQUEST['btnUpdate']))
-	{$con = mysqli_connect("localhost", "root", "");
+	{$con = mysqli_connect("localhost", "id1781998_dbuser", "dbuser");
 	
+	mysqli_select_db($con, "id1781998_dbuser");
 		$sql = "Update tbluserinfo set colPassword = '$password' where colId = '$id'";
 		
 		if($id=="" or $password=="")
@@ -145,8 +146,9 @@ $con = mysqli_connect("localhost", "root", "");
 	
 	//Delete record
 	if(isset($_REQUEST['btnDelete']))
-	{$con = mysqli_connect("localhost", "root", "");
+	{$con = mysqli_connect("localhost", "id1781998_dbuser", "dbuser");
 	
+	mysqli_select_db($con, "id1781998_dbuser");
 		$sql1 = "Select * from tbluserinfo where colId = '$id'";
                 $rs = mysqli_query($con, $sql1);
                 $row = mysqli_fetch_array($rs);
@@ -181,9 +183,9 @@ $con = mysqli_connect("localhost", "root", "");
 	
 	//Display by Id
 	if(isset($_REQUEST['btnDisplayById']))
-	{$con = mysqli_connect("localhost", "root", "");
+	{$con = mysqli_connect("localhost", "id1781998_dbuser", "dbuser");
 	
-	
+	mysqli_select_db($con, "id1781998_dbuser");
 		$sql = "Select * from tbluserinfo where  colId = '$id'";
 		
 		if($id=="")
@@ -203,13 +205,13 @@ $con = mysqli_connect("localhost", "root", "");
 	
 	//Display all records
 	if(isset($_REQUEST['btnDisplayAll']))
-	{$con = mysqli_connect("localhost", "root", "");
+	{$con = mysqli_connect("localhost", "id1781998_dbuser", "dbuser");
 	
-	
+	mysqli_select_db($con, "id1781998_dbuser");
 		$sql = "Select * from tbluserinfo";
 		
 		$rs = mysqli_query($con, $sql);
-			
+		echo '<center><h2><font color="grey" face="algerian">'.'<u><b>Name</b></u>'.'  &nbsp;&nbsp; '.'<u><b>Age</b></u>'.'</font></h2></center>';
 		while($row = mysqli_fetch_array($rs))
 		{
 			echo '<center><h2><font color="grey" face="algerian">'.$row['colName'].'---'.$row['colAge'].'</font></h2></center>';
