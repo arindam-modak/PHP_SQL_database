@@ -195,7 +195,7 @@ $con = mysqli_connect("localhost", "id1781998_dbuser", "dbuser");
 		else
 		{
 			$rs = mysqli_query($con, $sql);
-			
+			echo '<center><h2><font color="grey" face="algerian">'.'<u><b>Name</b></u>'.'  &nbsp;&nbsp;&nbsp;&nbsp; '.'<u><b>Age</b></u>'.'</font></h2></center>';
 			while($row = mysqli_fetch_array($rs))
 			{
 				echo '<center><h2><font color="grey" face="algerian">'.$row['colName'].'---'.$row['colAge'].'</font></h2></center>';
@@ -211,7 +211,7 @@ $con = mysqli_connect("localhost", "id1781998_dbuser", "dbuser");
 		$sql = "Select * from tbluserinfo";
 		
 		$rs = mysqli_query($con, $sql);
-		echo '<center><h2><font color="grey" face="algerian">'.'<u><b>Name</b></u>'.'  &nbsp;&nbsp; '.'<u><b>Age</b></u>'.'</font></h2></center>';
+		echo '<center><h2><font color="grey" face="algerian">'.'<u><b>Name</b></u>'.'  &nbsp;&nbsp;&nbsp;&nbsp; '.'<u><b>Age</b></u>'.'</font></h2></center>';
 		while($row = mysqli_fetch_array($rs))
 		{
 			echo '<center><h2><font color="grey" face="algerian">'.$row['colName'].'---'.$row['colAge'].'</font></h2></center>';
