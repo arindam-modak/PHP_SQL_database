@@ -2,10 +2,48 @@
 	File Name - dbCRUD.php
 	Database CRUD Operations
 -->
+<html>
+<body bgcolor="alice-blue">
+	<form>
+		<table border="1" align="center">
+			<tr>
+				<td>Id</td>
+				<td><input type="text" name="txtId"></td>
+			</tr>
+			<tr>
+				<td>Password</td>
+				<td><input type="password" name="txtPassword"></td>
+			</tr>
+			<tr>
+				<td>Name</td>
+				<td><input type="text" name="txtName"></td>
+			</tr>
+			<tr>
+				<td>Age</td>
+				<td>
+					<select name="lstAge">
+						<?php
+							for($i=18; $i<=60; $i++)
+							{
+								echo "<option>$i</option>";
+							}
+						?>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td  colspan='2'>
+					<input type="submit" name="btnAdd" value="Add Record">&nbsp;&nbsp;
+					<input type="submit" name="btnUpdate" value="Update Password">&nbsp;&nbsp;
+					<input type="submit" name="btnDelete" value="Delete Record">&nbsp;&nbsp;
+					<input type="submit" name="btnDisplayById" value="Display Record By ID">&nbsp;&nbsp;
+					<input type="submit" name="btnDisplayAll" value="Display All Records">&nbsp;&nbsp;
+				</td>
+			</tr>
+	</form>
 
 <?php
-	require("dbconfig.php");
-
+	
 	if(isset($_REQUEST['txtId']))
 	{
 		$id = $_REQUEST['txtId'];
@@ -45,6 +83,9 @@
 	//Add button
 	if(isset($_REQUEST['btnAdd']))
 	{
+$con = mysqli_connect("localhost", "root", "");
+	
+
 		$sql = "Insert into tbluserinfo(colId,colPassword,colName,colAge) values('$id', '$password', '$name', $age)";
 		
 		if($id=="" or $password=="" or $name=="" or $age=="")
@@ -68,13 +109,14 @@
 			{
 				echo "Error! Query could not be run!!";
 			}
-		}
+		}mysqli_close($con);
 	}
 	
 	
 	//Update password
 	if(isset($_REQUEST['btnUpdate']))
-	{
+	{$con = mysqli_connect("localhost", "root", "");
+	
 		$sql = "Update tbluserinfo set colPassword = '$password' where colId = '$id'";
 		
 		if($id=="" or $password=="")
@@ -98,20 +140,25 @@
 			{
 				echo "Error! Query could not be run!!";
 			}
-		}
+		}mysqli_close($con);
 	}
 	
 	//Delete record
 	if(isset($_REQUEST['btnDelete']))
-	{
-		$sql = "Delete from tbluserinfo where colId = '$id'";
-
-		if($id=="")
+	{$con = mysqli_connect("localhost", "root", "");
+	
+		$sql1 = "Select * from tbluserinfo where colId = '$id'";
+                $rs = mysqli_query($con, $sql1);
+                $row = mysqli_fetch_array($rs);
+		
+		if($id=="" or $password=="")
 		{
 			echo "Error! some of  the required fields are empty!!";
 		}
 		else
 		{
+                   if($row['colPassword']==$password){
+                        $sql = "Delete from tbluserinfo where colId = '$id'";
 			if(mysqli_query($con, $sql)===true)
 			{
 				if(mysqli_affected_rows($con)>0)
@@ -127,13 +174,16 @@
 			{
 				echo "Error! Query could not be run!!";
 			}
-		}
+                  }
+		}mysqli_close($con);
 	}
 	
 	
 	//Display by Id
 	if(isset($_REQUEST['btnDisplayById']))
-	{
+	{$con = mysqli_connect("localhost", "root", "");
+	
+	
 		$sql = "Select * from tbluserinfo where  colId = '$id'";
 		
 		if($id=="")
@@ -146,72 +196,29 @@
 			
 			while($row = mysqli_fetch_array($rs))
 			{
-				echo $row['colId'].'---'.$row['colPassword'].'---'.$row['colName'].'---'.$row['colAge'].'<br>';
+				echo '<center><h2><font color="grey" face="algerian">'.$row['colName'].'---'.$row['colAge'].'</font></h2></center>';
 			}
-		}
+		}mysqli_close($con);
 	}
 	
 	//Display all records
 	if(isset($_REQUEST['btnDisplayAll']))
-	{
+	{$con = mysqli_connect("localhost", "root", "");
+	
+	
 		$sql = "Select * from tbluserinfo";
 		
 		$rs = mysqli_query($con, $sql);
 			
 		while($row = mysqli_fetch_array($rs))
 		{
-			echo $row['colId'].'---'.$row['colPassword'].'---'.$row['colName'].'---'.$row['colAge'].'<br>';
-		}
+			echo '<center><h2><font color="grey" face="algerian">'.$row['colName'].'---'.$row['colAge'].'</font></h2></center>';
+		}mysqli_close($con);
 	}
 	
 	//mysql_free_result();
 	
-	mysqli_close($con);
-	
-	
+		
 ?>
-
-
-
-<html>
-	<form>
-		<table border="1" align="center">
-			<tr>
-				<td>Id</td>
-				<td><input type="text" name="txtId"></td>
-			</tr>
-			<tr>
-				<td>Password</td>
-				<td><input type="password" name="txtPassword"></td>
-			</tr>
-			<tr>
-				<td>Name</td>
-				<td><input type="text" name="txtName"></td>
-			</tr>
-			<tr>
-				<td>Age</td>
-				<td>
-					<select name="lstAge">
-						<?php
-							for($i=18; $i<=60; $i++)
-							{
-								echo "<option>$i</option>";
-							}
-						?>
-					</select>
-				</td>
-			</tr>
-			<tr>
-				<td  colspan='2'>
-					<input type="submit" name="btnAdd" value="Add Record">&nbsp;&nbsp;
-					<input type="submit" name="btnUpdate" value="Update Password">&nbsp;&nbsp;
-					<input type="submit" name="btnDelete" value="Delete Record">&nbsp;&nbsp;
-					<input type="submit" name="btnDisplayById" value="Display Record By ID">&nbsp;&nbsp;
-					<input type="submit" name="btnDisplayAll" value="Display All Records">&nbsp;&nbsp;
-				</td>
-			</tr>
-	</form>
+</body>
 </html>
-
-
-
